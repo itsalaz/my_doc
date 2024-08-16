@@ -7,7 +7,7 @@ from sqlalchemy import MetaData
 from flask_bcrypt import Bcrypt 
 from dotenv import load_dotenv 
 
-
+# Load environment variables from a .env file
 load_dotenv()
 
 
@@ -30,3 +30,5 @@ db.init_app(app)
 # api = Api(app)
 CORS(app)
 bcrypt = Bcrypt(app)
+
+print(f"Database URI: {app.config['SQLALCHEMY_DATABASE_URI']}")
