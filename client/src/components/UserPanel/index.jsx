@@ -4,8 +4,6 @@ import UserDetails from "./UserDetails"
 
 function UserPanel({currentUser, setCurrentUser}) {
 
-
-
   if (!currentUser) { 
 
     return (
