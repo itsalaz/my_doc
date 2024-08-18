@@ -5,12 +5,24 @@ function Appointments() {
   
   return (
     <div className="appointments-container">
-      <div className="appointment">
-        <h1>Doctor Name</h1>
-        <h2>Patient Name</h2>
-        <h3>Patient DOB</h3>
-        <h3>Time of Appointment</h3>
-      </div>
+      <table className="appointment">
+        <thead>
+          <tr>
+            <th>Monday</th>
+            <th>Tuesday</th>
+            <th>Wednesday</th>
+            <th>Thursday</th>
+            <th>Friday</th>
+            <th>Saturday</th>
+            <th>Sunday</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>Hi Appointment</th>
+          </tr>
+        </tbody>
+      </table>
     </div>
   )
 }

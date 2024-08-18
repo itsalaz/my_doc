@@ -1,18 +1,34 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 
 
-function PatientInfo() {
+function PatientInfo({patient}) {
+  const {id} = useParams()
+  const [patient, setPatient] = useState([])
 
-  
+  useEffect(() => {
+  fetch(`http://localhost:5555/patients/${id}`)
+  .then((res) => {
+    if(res.ok) {
+      res.json()
+  .then((data) => setPatient(data))
+  .catch(error => console.error('Error fetching patient:', error))
+    }
+  })
+  }, [id])
+
   return (
+    <>
     <div className='patient-info-container'>
-      <div className='patient-info-details'>
-        <h1>Patient Name</h1>
-        <p>Patient Info</p>
-        <p>Patient Pharmacy</p>
-        <p>Patient Emergency Contact</p>
-        <p>Patient Appointments</p>
-      </div>
+      <h1>{patient.name}</h1>
+      <h3>{patient.dob}</h3>
+      <h3>{patient.ssn}</h3>
+      <p>{patient.address}</p>
+      <p>{patient.phone_number}</p>
+
     </div>
+    </>
   )
 }
+
+export default PatientInfo
