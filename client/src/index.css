@@ -1,7 +1,92 @@
-:root {
-  --bg: #282c34;
-  --header: #fff;
-  --link: #61dafb;
-  --text: hsla(0, 0%, 100%, 0.88);
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-image: url('https://www.shutterstock.com/image-photo/stethoscope-calendar-page-date-on-600nw-1788779051.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.App {
+  text-align: center;
+  background: rgba(27, 27, 205, 0); 
+  border-radius: 15px; 
+  padding: 2em; 
+  max-width: 600px; 
+  width: 90%; 
+  margin: auto; 
+  background-color: #a9181848; 
+  border: 1px solid #0c4ded;}
+
+  h1 {
+    font-size: 3em; 
+    font-weight: bold; 
+    color: #ffffff; 
+    margin-bottom: 1em;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5), 0 0 10px rgba(0, 0, 255, 0.7); 
+    letter-spacing: 2px; 
+    padding: 0.5em 1em; 
+    background: rgba(0, 0, 0, 0.5); 
+    border-radius: 8px; 
+  }
+
+
+.user-form {
+  background-color: #f7f7f7;
+  margin: 2em auto; 
+  padding: 2em; 
+  border-radius: 10px; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  max-width: 400px; 
+  display: flex;
+  flex-direction: column;
+}
+
+.user-form input {
+  background: #e9ecef; 
+  border-radius: 5px; 
+  padding: 0.75em;
+  margin-top: 1em;
+  transition: background-color 0.3s; 
+}
+
+.user-form input:focus {
+  background-color: #dee2e6; 
+  outline: none; 
+}
+
+.user-form input[type="submit"] {
+  background-color: #007bff; 
+  border: none;
+  border-radius: 5px; 
+  padding: 0.75em;
+  margin-top: 1.5em;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.1s;
+}
+
+.user-form input[type="submit"]:hover {
+  background-color: #0056b3; 
+  transform: scale(1.05); 
+}
+
+.flex-row {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  justify-content: center;
+  margin-top: 2em; 
+}
