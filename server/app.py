@@ -1,28 +1,20 @@
 from flask import Flask, request, session, jsonify
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
-from models import db, User, Patient, Doctor, Appointment, DoctorNote, Chart
+from werkzeug.security import generate_password_hash
+from models import User
+from config import app, db, bcrypt 
 
-# Initialize the Flask application
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-db.init_app(app)
-migrate = Migrate(app, db)
-
-@app.post('/api/user')
+@app.post('/api/users')
 def create_user():
-   data = request.json
-   try:
-       new_user = User(username=data['username'])
-       new_user.password = data['passsword']
-       db.session.add(new_user)
-       db.session.commit()
-       session['user_id'] = new_user.id
-       return new_user.to_dict(), 201
-   except Exception as e:
-       return { 'error': str(e)}, 406
+    data = request.json
+    try:
+        new_user = User(username=data['username'])
+        new_user.password = data['password']
+        db.session.add(new_user)
+        db.session.commit()
+        session['user_id'] = new_user.id 
+        return new_user.to_dict(), 201
+    except Exception as e:
+        return { 'error': str(e) }, 406
 
 @app.get('/api/check_session')
 def check_session():
@@ -31,18 +23,22 @@ def check_session():
         user = User.query.where(User.id == user_id).first()
         return user.to_dict(), 200
     else:
-        return {}, 200
-
+        return {}, 204
 
 @app.post('/api/login')
 def login():
-    pass
+    data = request.json 
+    user = User.query.where(User.username == data['username']).first()
+    if user and user.authenticate(data['password']):
+        session['user_id'] = user.id 
+        return user.to_dict(), 201
+    else:
+        return { 'error': 'Invalid username or password' }, 401
 
 @app.delete('/api/logout')
 def logout():
     session.pop('user_id')
     return {}, 204
-
 
 @app.post('/api/doctor_notes')
 def create_note():
@@ -61,4 +57,3 @@ def index():
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
-

@@ -15,16 +15,22 @@ class User(db.Model, SerializerMixin):
 
   id = db.Column(db.Integer, primary_key=True)
   username = db.Column(db.String, unique=True, nullable=False)
-  password_hash = db.Column(db.String, nullable=False)
+  password_hash= db.Column(db.String, nullable=False)
 
   doctor = db.relationship('Doctor', uselist=False, back_populates='user')
+ 
+  serialize_rules = ("-password_hash",)
 
-  def check_password(self, password):
-    return bcrypt.check_password_hash(self.password_hash, password)
-  
-  def set_password(self, password):
-    self.password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
+  @property
+  def password(self): 
+      raise Exception("Safety First")
+    
+  @password.setter
+  def password(self, value): 
+      self.password_hash = bcrypt.generate_password_hash(value).decode('utf-8')
 
+  def authenticate(self, password_to_check): 
+      return bcrypt.check_password_hash(self.password_hash, password_to_check) 
 
 class Doctor(db.Model, SerializerMixin):
   
