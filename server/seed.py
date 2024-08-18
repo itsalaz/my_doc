@@ -15,6 +15,8 @@ if __name__ == '__main__':
         print("Starting seed...")
         print("Clearing old data...")
 
+
+
         Doctor.query.delete()
         Patient.query.delete()
         Appointment.query.delete()
