@@ -7,6 +7,7 @@ import NewPatient from './Pages/NewPatient'
 import Login from './UserPanel/Login';
 import Signup from './UserPanel/Signup';
 import NavBar from './NavBar'
+import UserPanel from './UserPanel'
 
 
 function App() {
