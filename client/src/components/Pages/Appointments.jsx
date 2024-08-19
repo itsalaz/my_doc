@@ -5,12 +5,29 @@ function Appointments() {
   
   return (
     <div className="appointments-container">
-      <div className="appointment">
-        <h1>Doctor Name</h1>
-        <h2>Patient Name</h2>
-        <h3>Patient DOB</h3>
-        <h3>Time of Appointment</h3>
-      </div>
+      <button></button>
+      <h1 className='month-year'></h1>
+      <button></button>
+      <table className="appointment">
+        <thead>
+          <tr>
+            <th>M</th>
+            <th>T</th>
+            <th>W</th>
+            <th>T</th>
+            <th>F</th>
+            <th>S</th>
+            <th>S</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>Hi Appointment</th>
+          </tr>
+        </tbody>
+      </table>
     </div>
   )
 }
+
+export default Appointments;

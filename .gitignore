@@ -54,6 +54,7 @@ jspm_packages
 
 # Virtual env metadata
 .venv
+echo ".env" >> .gitignore
 
 # pytest cache
 .pytest_cache
