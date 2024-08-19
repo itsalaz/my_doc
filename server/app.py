@@ -19,6 +19,7 @@ def create_user():
 @app.get('/api/check_session')
 def check_session():
     user_id = session.get('user_id')
+
     if user_id:
         user = User.query.where(User.id == user_id).first()
         return user.to_dict(), 200
@@ -51,9 +52,12 @@ def create_note():
     except Exception as e:
         return {'error': str(e)}, 406
 
-@app.route('/')
+
+@app.get('/')
 def index():
-    return '<h1>Project Server</h1>'
+    pass
+
+
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

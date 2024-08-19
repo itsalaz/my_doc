@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import NavBar from './NavBar'
+import UserDetails from './UserPanel/UserDetails' // confirm 
 
 
 function Header() {
@@ -8,6 +9,7 @@ function Header() {
     <>
     <NavBar />
     <header className='header'>
+      <UserDetails />
       <span className='header-logo'>
         <img src='logo.png' alt='company-logo' />
       </span>

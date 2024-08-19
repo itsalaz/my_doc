@@ -1,3 +1,4 @@
+from sqlalchemy.orm import validates 
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.associationproxy import association_proxy
 from config import db, bcrypt 
@@ -73,6 +74,11 @@ class Patient(db.Model, SerializerMixin):
   id = db.Column(db.Integer, primary_key=True)
   name = db.Column(db.String, nullable=False)
   dob = db.Column(db.Integer, nullable=False)
+  ssn = db.Column(db.Integer, nullable=False)
+  email = db.Column(db.String, unique=True, nullable=False)
+  address = db.Column(db.String, nullable=False)
+  phone_number = db.Column(db.String, nullable=False)
+  year_joined= db.Column(db.Integer)
   chart_id = db.Column(db.String, db.ForeignKey('chart_table.id'), nullable=False)
 
   appointments = db.relationship('Appointment', back_populates='patient')
@@ -80,6 +86,46 @@ class Patient(db.Model, SerializerMixin):
 
   serialize_rules = ('appointments.patient', 'doctor_notes.patients',)
 
+
+  @validates('year_joined')
+  def validate_year_joined(self, key, value):
+    current_year = datetime.now().year
+
+    if not type(value) == int:
+      raise ValueError('year joined must be between an integer')
+    
+    if value not in range(2023, current_year):
+      raise ValueError(f'year joined must be between 2023 and {current_year}')
+    
+    return value
+  
+
+  @validates('email')
+  def validates_email(self, key, value):
+    if value.count('@') != 1:
+      raise ValueError('Invalid email format')
+
+    return value.lower()
+  
+
+  @validates('phone_number')
+  def validate_phone_number(self, key, value):
+    
+    if len(value) > 10:
+      raise ValueError('Not a valid phone number')
+    elif not value.isdigit():
+      raise ValueError('Phone number must be an integer')
+    
+    return value
+  
+  @validates('address')
+  def validate_address(self, key, value):
+    
+    if not value[-5:].isdigit():
+      return ValueError('Address must include zip code')
+    
+    return value
+  
 
 class DoctorNote(db.Model, SerializerMixin):
   __tablename__ = 'doctors_notes'
