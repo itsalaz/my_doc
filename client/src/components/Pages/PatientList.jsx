@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react"
 import PatientCard from '../PatientCard'
 
-export default function PatientList({search}) {
+export default function PatientList({ search }) {
   const [patients, setPatients] = useState([])
-  const [search, setSearch] = useState([])
 
   useEffect(() => {
-    fetch('/patients')
+    fetch('/api/patients')
       .then(response => response.json())
       .then(data => setPatients(data))
       .catch(error => console.error('Error fetching data:', error))

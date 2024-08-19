@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { useHistory } from 'react-router'
-import Header from './Header'
-import { FormField, Input, Label } from '../styles'
+// import { useHistory } from 'react-router'
+import Header from '../Header'
+// import { FormField, Input, Label } from '../Styles'
 
 function NewPatient() {
   const [isLoading, setIsLoading] = useState(false)
   const [errors, setErrors ] = useState([])
-  const history = useHistory()
+  // const history = useHistory()
 
 
   const [name, setName] = useState('')
@@ -20,7 +20,7 @@ function NewPatient() {
   function handleSubmit(e) {
     e.preventDefault()
     setIsLoading(true)
-    fetch('http://localhost:5555/patients', {
+    fetch('/api/patients', {
       method:'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -31,12 +31,12 @@ function NewPatient() {
         ssn, 
         email,
         address,
-        phone_number
+        phone_number,
       }),
     }).then((res) => {
       setIsLoading(false)
       if(res.ok) {
-        history.push('http:localhost:5555/patients')
+        history.push('/api/patients')
       } else {
         res.json().then((err) => setErrors(err.errors))
       }
