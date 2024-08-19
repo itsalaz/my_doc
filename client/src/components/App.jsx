@@ -32,8 +32,11 @@ if(loading) {
 }
 
   return (
-    <div className='app'>
+
+    <div className='app App'>
+      <h1>Doctifile</h1>
       <NavBar/>
+      <UserPanel currentUser={currentUser} setCurrentUser={setCurrentUser} />
       <Routes>
           <Route path="/" element= {<Login setCurrentUser={setCurrentUser}/> } />
           <Route path="/users" element={<Signup setCurrentUser={setCurrentUser}/>} />
