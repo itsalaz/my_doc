@@ -25,7 +25,7 @@ function App() {
   return (
     <div className="App">
 
-      <h1>Login Page</h1>
+      <h1>Doctifile</h1>
 
       <UserPanel currentUser={currentUser} setCurrentUser={setCurrentUser} />
 
