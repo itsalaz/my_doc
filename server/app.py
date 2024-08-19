@@ -11,7 +11,11 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 migrate = Migrate(app, db)
 
-@app.post('/api/user')
+
+
+URL_PREFIX= '/api'
+
+@app.post('/api/signup')
 def create_user():
    data = request.json
    try:
@@ -27,37 +31,35 @@ def create_user():
 @app.get('/api/check_session')
 def check_session():
     user_id = session.get('user_id')
+
     if user_id:
         user = User.query.where(User.id == user_id).first()
         return user.to_dict(), 200
     else:
         return {}, 200
 
-
 @app.post('/api/login')
 def login():
-    pass
+    data = request.json 
+
+    user = User.query.filter_by(User.username == data['username']).first()
+    if user and user.authenticate(data['password']):
+        session ['user_id'] = user.id
+        return user.to_dict(), 201
+    else:
+        return {'error': 'Invalid username or password'}, 400
+
 
 @app.delete('/api/logout')
 def logout():
     session.pop('user_id')
     return {}, 204
 
-
-@app.post('/api/doctor_notes')
-def create_note():
-    try:
-        data = request.json
-        new_note = DoctorNote(**data)
-        new_note.user_id = session['user_id']
-        db.session.add(new_note)
-        db.session.commit()
-    except Exception as e:
-        return {'error': str(e)}, 406
-
-@app.route('/')
+@app.get('/')
 def index():
-    return '<h1>Project Server</h1>'
+    pass
+
+
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

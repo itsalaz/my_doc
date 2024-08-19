@@ -5,16 +5,19 @@ function Appointments() {
   
   return (
     <div className="appointments-container">
+      <button></button>
+      <h1 className='month-year'></h1>
+      <button></button>
       <table className="appointment">
         <thead>
           <tr>
-            <th>Monday</th>
-            <th>Tuesday</th>
-            <th>Wednesday</th>
-            <th>Thursday</th>
-            <th>Friday</th>
-            <th>Saturday</th>
-            <th>Sunday</th>
+            <th>M</th>
+            <th>T</th>
+            <th>W</th>
+            <th>T</th>
+            <th>F</th>
+            <th>S</th>
+            <th>S</th>
           </tr>
         </thead>
         <tbody>
@@ -26,3 +29,5 @@ function Appointments() {
     </div>
   )
 }
+
+export default Appointments;

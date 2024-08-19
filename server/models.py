@@ -1,4 +1,3 @@
-import re
 from sqlalchemy.orm import validates 
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.associationproxy import association_proxy
@@ -69,7 +68,7 @@ class Patient(db.Model, SerializerMixin):
   id = db.Column(db.Integer, primary_key=True)
   name = db.Column(db.String, nullable=False)
   dob = db.Column(db.Integer, nullable=False)
-  ssn = db.Column(db.Intger, nullable=False)
+  ssn = db.Column(db.Integer, nullable=False)
   email = db.Column(db.String, unique=True, nullable=False)
   address = db.Column(db.String, nullable=False)
   phone_number = db.Column(db.String, nullable=False)

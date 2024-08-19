@@ -2,12 +2,12 @@ import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
 
-function PatientInfo({patient}) {
+function PatientInfo() {
   const {id} = useParams()
   const [patient, setPatient] = useState([])
 
   useEffect(() => {
-  fetch(`http://localhost:5555/patients/${id}`)
+  fetch(`api/patients/${id}`)
   .then((res) => {
     if(res.ok) {
       res.json()
@@ -25,7 +25,6 @@ function PatientInfo({patient}) {
       <h3>{patient.ssn}</h3>
       <p>{patient.address}</p>
       <p>{patient.phone_number}</p>
-
     </div>
     </>
   )
