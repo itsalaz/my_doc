@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom'
 
 function PatientInfo() {
   const {id} = useParams()
-  const [patient, setPatient] = useState([])
+  const [patient, setPatient] = useState({})
 
   useEffect(() => {
   fetch(`api/patients/${id}`)
@@ -21,10 +21,10 @@ function PatientInfo() {
     <>
     <div className='patient-info-container'>
       <h1>{patient.name}</h1>
-      <h3>{patient.dob}</h3>
-      <h3>{patient.ssn}</h3>
-      <p>{patient.address}</p>
-      <p>{patient.phone_number}</p>
+      <h3>Date of Birth:{patient.dob}</h3>
+      <h3>SSN:{patient.ssn}</h3>
+      <p>Address:{patient.address}</p>
+      <p>Phone Number:{patient.phone_number}</p>
     </div>
     </>
   )

@@ -1,3 +1,6 @@
+import React from 'react'
+
+
 function UserDetails({currentUser, setCurrentUser}) {
 
     function handleLogout() {
@@ -10,6 +13,7 @@ function UserDetails({currentUser, setCurrentUser}) {
           <h2>Welcome {currentUser.username}!</h2>
           <button onClick={handleLogout}>Logout</button>
         </div>
+        
       )
     
     }

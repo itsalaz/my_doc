@@ -8,11 +8,11 @@ function PatientCard({patient}) {
     <>
     <li className='patient-card'>
       <Link to={`/patients/${patient.id}`}>
-          <tr>
-            <th>{patient.name}</th>
-            <th>{patient.dob}</th>
-            <th>{patient.ssn}</th>
-          </tr>
+          <div>
+            <h3>{patient.name}</h3>
+            <p>Date of Birth: {patient.dob}</p>
+            <p>SSN:{patient.ssn}</p>
+          </div>
       </Link>
     </li>
 
