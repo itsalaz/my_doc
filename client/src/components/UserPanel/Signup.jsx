@@ -1,60 +1,71 @@
-import { useState } from 'react'
+// 
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
-function Signup({setCurrentUser}) {
+function Signup({ setCurrentUser }) {
 
   // STATE //
-
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   // EVENTS //
-
   function handleSubmit(e) {
-    e.preventDefault()
+    e.preventDefault();
 
     fetch('/api/users', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify({username, password})
+      body: JSON.stringify({ username, password })
     })
-    .then( res => {
+    .then(res => {
       if (res.ok) {
-        res.json()
-        .then( data => setCurrentUser(data) )
+        return res.json();
       } else {
-        res.json()
-        .then( data => alert( data.error ) )
+        return res.json().then(data => {
+          throw new Error(data.error);
+        });
       }
     })
+    .then(data => {
+      setCurrentUser(data);
+      navigate('/login');
+    })
+    .catch(error => {
+      alert(error.message);
+    });
   }
 
   // RENDER //
-
   return (
     <form className='user-form' onSubmit={handleSubmit}>
-
       <h2>Signup</h2>
 
-      <input type="text"
-      onChange={e => setUsername(e.target.value)}
-      value={username}
-      placeholder='username'
+      <input
+        type="text"
+        onChange={e => setUsername(e.target.value)}
+        value={username}
+        placeholder='Username'
       />
 
-      <input 
-      type="text"
-      onChange={e => setPassword(e.target.value.toString())}
-      value={password}
-      placeholder='password'
+      <input
+        type="password"
+        onChange={e => setPassword(e.target.value)}
+        value={password}
+        placeholder='Password'
       />
 
-      <input type="submit"
-      value='Signup'
+      <input
+        type="submit"
+        value='Signup'
       />
-
+      
+      <p>Already have an account?</p>
+      <Link to='/login'>
+        <button type="button">Login</button>
+      </Link>
     </form>
-  )
-
+  );
 }
 
-export default Signup
+export default Signup;
