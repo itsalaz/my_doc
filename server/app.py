@@ -1,6 +1,6 @@
 from flask import Flask, request, session, jsonify
 from werkzeug.security import generate_password_hash
-from models import User
+from models import User, Patient, Doctor
 from config import app, db, bcrypt 
 
 @app.post('/api/users')
@@ -41,17 +41,35 @@ def logout():
     session.pop('user_id')
     return {}, 204
 
-@app.post('/api/doctor_notes')
-def create_note():
-    try:
-        data = request.json
-        new_note = DoctorNote(**data)
-        new_note.user_id = session['user_id']
-        db.session.add(new_note)
-        db.session.commit()
-    except Exception as e:
-        return {'error': str(e)}, 406
+# @app.post('/api/doctor_notes')
+# def create_note():
+#     try:
+#         data = request.json
+#         new_note = DoctorNote(**data)
+#         new_note.user_id = session['user_id']
+#         db.session.add(new_note)
+#         db.session.commit()
+#     except Exception as e:
+#         return {'error': str(e)}, 406
+@app.get('/api/patients')
+def get_patients():
+    patient_list = Patient.query.all()
+    patient_dicts = [ patient.to_dict() for patient in  patient_list]
 
+    return patient_dicts, 200
+
+@app.get('/api/patients/<int:id>')
+def get_patient(id):
+    # 1. SQLALchemy query to get an artist by thier id
+    found_patient = Patient.query.where(Patient.id == id).first()
+    # 2. Conditional if the artist exists
+    if found_patient:
+    # 2a. Return the found artist 
+        return found_patient.to_dict(), 200
+    # 3. if no artist then..
+    else:
+    # 3a. Return an erroe message with the 404 status code
+        return {"error": "Not found"}, 404
 
 @app.get('/')
 def index():

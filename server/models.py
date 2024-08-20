@@ -3,6 +3,8 @@ from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.associationproxy import association_proxy
 from config import db, bcrypt 
 from datetime import datetime
+from sqlalchemy import Column, Integer, Date, String
+import re
 
 # Association table
 doctor_note_patient = db.Table('doctor_note_patient',
@@ -20,7 +22,7 @@ class User(db.Model, SerializerMixin):
 
   doctor = db.relationship('Doctor', uselist=False, back_populates='user')
  
-  serialize_rules = ("-password_hash",)
+  serialize_rules = ("-password_hash", "-doctor.user",)
 
   @property
   def password(self): 
@@ -73,9 +75,9 @@ class Patient(db.Model, SerializerMixin):
 
   id = db.Column(db.Integer, primary_key=True)
   name = db.Column(db.String, nullable=False)
-  dob = db.Column(db.Integer, nullable=False)
+  dob = db.Column(db.Date, nullable=False)
   ssn = db.Column(db.Integer, nullable=False)
-  email = db.Column(db.String, unique=True, nullable=False)
+  email = db.Column(db.String, nullable=False)
   address = db.Column(db.String, nullable=False)
   phone_number = db.Column(db.String, nullable=False)
   year_joined= db.Column(db.Integer)
@@ -90,6 +92,7 @@ class Patient(db.Model, SerializerMixin):
   @validates('year_joined')
   def validate_year_joined(self, key, value):
     current_year = datetime.now().year
+
 
     if not type(value) == int:
       raise ValueError('year joined must be between an integer')
@@ -107,10 +110,9 @@ class Patient(db.Model, SerializerMixin):
 
     return value.lower()
   
-
+ 
   @validates('phone_number')
   def validate_phone_number(self, key, value):
-    
     if len(value) > 10:
       raise ValueError('Not a valid phone number')
     elif not value.isdigit():
@@ -118,12 +120,11 @@ class Patient(db.Model, SerializerMixin):
     
     return value
   
+
   @validates('address')
   def validate_address(self, key, value):
-    
-    if not value[-5:].isdigit():
-      return ValueError('Address must include zip code')
-    
+    if len(value) < 5 or not value[-5:].isdigit():
+        raise ValueError('Address must include a zip code')
     return value
   
 
