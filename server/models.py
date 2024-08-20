@@ -89,43 +89,43 @@ class Patient(db.Model, SerializerMixin):
   serialize_rules = ('appointments.patient', 'doctor_notes.patients',)
 
 
-  @validates('year_joined')
-  def validate_year_joined(self, key, value):
-    current_year = datetime.now().year
+  # # @validates('year_joined')
+  # # def validate_year_joined(self, key, value):
+  # #   current_year = datetime.now().year
 
 
-    if not type(value) == int:
-      raise ValueError('year joined must be between an integer')
+  #   if not type(value) == int:
+  #     raise ValueError('year joined must be between an integer')
     
-    if value not in range(2023, current_year):
-      raise ValueError(f'year joined must be between 2023 and {current_year}')
+  #   if value not in range(2023, current_year):
+  #     raise ValueError(f'year joined must be between 2023 and {current_year}')
     
-    return value
+  #   return value
   
 
-  @validates('email')
-  def validates_email(self, key, value):
-    if value.count('@') != 1:
-      raise ValueError('Invalid email format')
+  # @validates('email')
+  # def validates_email(self, key, value):
+  #   if value.count('@') != 1:
+  #     raise ValueError('Invalid email format')
 
-    return value.lower()
+  #   return value.lower()
   
  
-  @validates('phone_number')
-  def validate_phone_number(self, key, value):
-    if len(value) > 10:
-      raise ValueError('Not a valid phone number')
-    elif not value.isdigit():
-      raise ValueError('Phone number must be an integer')
+  # @validates('phone_number')
+  # def validate_phone_number(self, key, value):
+  #   if len(value) > 10:
+  #     raise ValueError('Not a valid phone number')
+  #   elif not value.isdigit():
+  #     raise ValueError('Phone number must be an integer')
     
-    return value
+  #   return value
   
 
-  @validates('address')
-  def validate_address(self, key, value):
-    if len(value) < 5 or not value[-5:].isdigit():
-        raise ValueError('Address must include a zip code')
-    return value
+  # @validates('address')
+  # def validate_address(self, key, value):
+  #   if len(value) < 5 or not value[-5:].isdigit():
+  #       raise ValueError('Address must include a zip code')
+  #   return value
   
 
 class DoctorNote(db.Model, SerializerMixin):

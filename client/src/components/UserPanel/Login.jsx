@@ -115,7 +115,7 @@ function Login({ setCurrentUser }) {
       />
       
       <Link to='/signup'>
-        <button type="button">Signup</button>
+        <button type="button" className="signup-button">Signup</button>
       </Link>
     </form>
   );

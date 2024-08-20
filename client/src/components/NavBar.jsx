@@ -15,11 +15,10 @@ function NavBar({ currentUser, handleLogout }) {
           <button onClick={handleLogout}>Logout</button>
         </>
       ) : (
-        <>
+        <div class="parent-container">
+          <h3 className='title'>Doctafile</h3>
+        </div>
          
-          <h3 className='title'>DocAfile</h3>
-         
-        </>
       )}
     </nav>
   );
