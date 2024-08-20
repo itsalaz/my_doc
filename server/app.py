@@ -1,6 +1,6 @@
 from flask import Flask, request, session, jsonify
 from werkzeug.security import generate_password_hash
-from models import User, Patient, Doctor
+from models import User, Patient, Doctor, Appointment
 from config import app, db, bcrypt 
 
 @app.post('/api/users')
@@ -70,6 +70,12 @@ def get_patient(id):
     else:
     # 3a. Return an erroe message with the 404 status code
         return {"error": "Not found"}, 404
+    
+@app.get('/api/appointments')
+def get_appointment():
+    appointments = Appointment.query.all()
+    return jsonify([appointment.to_dict() for appointment in appointments])
+
 
 @app.get('/')
 def index():
