@@ -17,11 +17,10 @@ export default function PatientList({ search }) {
   )
 
   return (
-    <>
+    
       <main className="patient-container">
         <div className="patient-list">
-          
-            <table>
+           <table>
               <thead>
                 <tr>
                   <th>Patient Name</th>
@@ -33,10 +32,7 @@ export default function PatientList({ search }) {
             ))}
               </tbody>
             </table>
-         
-        </div>
+          </div>
       </main>
-      
-    </>
-  );
+    );
 }

@@ -8,14 +8,9 @@ function PatientCard({patient}) {
     
     <div className='patient-card'>
       <Link to={`/patients/${patient.id}`}>
-          <div>
-            <h3>{patient.name}</h3>
-            
-          </div>
-      </Link>
+           <h3>{patient.name}</h3>
+       </Link>
     </div>
-
-  
   )
 }
 
