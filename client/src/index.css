@@ -211,3 +211,31 @@ button {
 button:hover {
   background-color: #0056b3; 
 }
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f6f6f6;
+  padding: 10px 20px;
+  font-family: Arial, sans-serif;
+}
+
+.navbar a {
+  color: rgb(47, 68, 208);
+  text-decoration: none;
+  margin: 0 15px;
+  font-size: 18px;
+  transition: color 0.3s ease-in-out;
+}
+
+.navbar a:hover {
+  color: #9e7b7b; 
+}
+
+.navbar button:hover {
+  background-color: #cc0000; 
+}
+
+
+
