@@ -1,32 +1,48 @@
-import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
 
+
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 function PatientInfo() {
-  const {id} = useParams()
-  const [patient, setPatient] = useState({})
+  const { id } = useParams();
+  const [patient, setPatient] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-  fetch(`api/patients/${id}`)
-  .then((res) => {
-    if(res.ok) {
-      res.json()
-  .then((data) => setPatient(data))
-  .catch(error => console.error('Error fetching patient:', error))
-    }
-  })
-  }, [id])
+    fetch(`/api/patients/${id}`)
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw new Error('Failed to fetch patient data');
+        }
+      })
+      .then(data => {
+        setPatient(data);
+        setLoading(false);
+      })
+      .catch(error => {
+        setError(error.message);
+        setLoading(false);
+      });
+  }, [id]);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
+
+  if (!patient) return <p>No patient data found</p>;
 
   return (
- <div className='patient-info-container'>
-  <h1>{patient.name}</h1>
-    <table>
+    <div className='patient-info-container'>
+      <h1>{patient.name}</h1>
+      <table>
         <tbody>
           <tr>
             <th>Name</th>
             <td>{patient.name}</td>
           </tr>
-           <tr>
+          <tr>
             <th>Date of Birth</th>
             <td>{patient.dob}</td>
           </tr>
@@ -42,14 +58,10 @@ function PatientInfo() {
             <th>Phone Number</th>
             <td>{patient.phone_number}</td>
           </tr>
-      {/* <h3>SSN:{patient.ssn}</h3>
-      <p>Address:{patient.address}</p>
-      <p>Phone Number:{patient.phone_number}</p> */}
-    
-       </tbody>
-    </table>
- </div>
-  )
+        </tbody>
+      </table>
+    </div>
+  );
 }
 
-export default PatientInfo
+export default PatientInfo;
