@@ -19,22 +19,22 @@ export default function PatientList({ search }) {
   return (
     <>
       <main className="patient-container">
-        <ul className="patient-list">
-          {filteredPatients.map(patient => (
+        <div className="patient-list">
+          
             <table>
               <thead>
                 <tr>
                   <th>Patient Name</th>
-                  <th>Patient DOB</th>
-                  <th>Patient SSN</th>
-                </tr>
+                 </tr>
               </thead>
               <tbody>
+              {filteredPatients.map(patient => (
               <PatientCard key={patient.id} patient={patient} />
+            ))}
               </tbody>
             </table>
-          ))}
-        </ul>
+         
+        </div>
       </main>
       
     </>
