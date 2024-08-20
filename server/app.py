@@ -1,6 +1,6 @@
 from flask import Flask, request, session, jsonify
 from werkzeug.security import generate_password_hash
-from models import User, Patient, Doctor
+from models import User, Patient, Doctor, Appointment
 from config import app, db, bcrypt 
 
 @app.post('/api/users')
@@ -51,6 +51,13 @@ def logout():
 #         db.session.commit()
 #     except Exception as e:
 #         return {'error': str(e)}, 406
+@app.get('/api/appointments')
+def get_appointments():
+    apt_list = Appointment.query.all()
+    apt_dicts = [ appointment.to_dict() for appointment in apt_list]
+ 
+    return apt_dicts, 200
+
 @app.get('/api/patients')
 def get_patients():
     patient_list = Patient.query.all()
@@ -60,16 +67,12 @@ def get_patients():
 
 @app.get('/api/patients/<int:id>')
 def get_patient(id):
-    # 1. SQLALchemy query to get an artist by thier id
     found_patient = Patient.query.where(Patient.id == id).first()
-    # 2. Conditional if the artist exists
     if found_patient:
-    # 2a. Return the found artist 
-        return found_patient.to_dict(), 200
-    # 3. if no artist then..
+      return found_patient.to_dict(), 200
+
     else:
-    # 3a. Return an erroe message with the 404 status code
-        return {"error": "Not found"}, 404
+      return {"error": "Not found"}, 404
 
 @app.get('/')
 def index():
