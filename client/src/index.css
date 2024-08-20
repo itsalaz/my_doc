@@ -92,3 +92,35 @@ code {
   justify-content: center;
   margin-top: 2em; 
 }
+
+.navbar {
+  display: flex;
+  justify-content: space-around;
+  background-color: #f0f0f0;
+  padding: 1rem;
+}
+
+.navbar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+}
+
+.navbar li {
+  margin: 0 1rem;
+}
+
+.navbar a, .navbar button {
+  text-decoration: none;
+  color: #007bff;
+  font-weight: bold;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.navbar a.active {
+  color: #0056b3;
+}
+
