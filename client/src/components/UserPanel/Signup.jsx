@@ -29,7 +29,7 @@ function Signup({ setCurrentUser }) {
     })
     .then(data => {
       setCurrentUser(data);
-      navigate('/login');
+      navigate('/');
     })
     .catch(error => {
       alert(error.message);
