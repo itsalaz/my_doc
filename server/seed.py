@@ -79,7 +79,7 @@ def seed_database():
         notes = [DoctorNote(
             note=fake.text(), 
             date=fake.date_time_this_year(), 
-            doctor_id=randint(1, 5)
+            doctor_id=randint(1, 50)
         ) for _ in range(5)]
         db.session.bulk_save_objects(notes)
 

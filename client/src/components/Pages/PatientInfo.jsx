@@ -33,8 +33,10 @@ function PatientInfo() {
 
   if (!patient) return <p>No patient data found</p>;
 
+
   return (
     <div className='patient-info-container'>
+      <thead></thead>
       <h1>{patient.name}</h1>
       <table>
         <tbody>
@@ -60,6 +62,7 @@ function PatientInfo() {
           </tr>
         </tbody>
       </table>
+      <button>Edit Patient</button>
     </div>
   );
 }

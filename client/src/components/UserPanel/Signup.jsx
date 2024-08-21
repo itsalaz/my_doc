@@ -4,12 +4,12 @@ import { Link, useNavigate } from 'react-router-dom';
 
 function Signup({ setCurrentUser }) {
 
-  // STATE //
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  // EVENTS //
+
   function handleSubmit(e) {
     e.preventDefault();
 
@@ -36,7 +36,7 @@ function Signup({ setCurrentUser }) {
     });
   }
 
-  // RENDER //
+
   return (
     <form className='user-form' onSubmit={handleSubmit}>
       <h2>Signup</h2>

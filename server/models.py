@@ -52,7 +52,6 @@ class Doctor(db.Model, SerializerMixin):
   serialize_rules = ('-appointments.doctor', '-notes.doctor',)
 
 
-
 class Appointment(db.Model, SerializerMixin):
   __tablename__ = 'appointments_table'
   

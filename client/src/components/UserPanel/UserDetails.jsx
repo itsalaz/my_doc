@@ -7,6 +7,10 @@ function UserDetails({currentUser, setCurrentUser}) {
       setCurrentUser(null) 
       fetch('/api/logout', { method: 'DELETE' })
     }
+
+    if (!currentUser) {
+      return <p>Loading user details...</p>
+    }
   
       return (
         <div className='user-details'>
