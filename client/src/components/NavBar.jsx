@@ -12,14 +12,12 @@ function NavBar({ currentUser, handleLogout }) {
           <NavLink to="/">Home</NavLink>
           <NavLink to="/patients">Patients</NavLink>
           <NavLink to="/appointments">Appointments</NavLink>
-          <button onClick={handleLogout}>Logout</button>
         </>
       ) : (
-        <>
+        <div class="parent-container">
+          <h3 className='title'>Doctafile</h3>
+        </div>
          
-          <h3 className='title'>DocAfile</h3>
-         
-        </>
       )}
     </nav>
   );
