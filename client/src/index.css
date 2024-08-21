@@ -207,7 +207,7 @@ p {
   margin-bottom: 15px;       
 }
 
-button {
+.loginbtn {
   background-color: #1E90FF; 
   color: white;             
   border: none;           
