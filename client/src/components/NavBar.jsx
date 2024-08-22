@@ -12,6 +12,7 @@ function NavBar({ currentUser, handleLogout }) {
           <NavLink to="/">Home</NavLink>
           <NavLink to="/patients">Patients</NavLink>
           <NavLink to="/appointments">Appointments</NavLink>
+          {/* <NavLink to="/newpatient">New Patient</NavLink> */}
         </>
       ) : (
         <div className="parent-container">

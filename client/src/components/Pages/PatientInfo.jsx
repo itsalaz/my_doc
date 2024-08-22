@@ -44,6 +44,7 @@ function PatientInfo({loading, setLoading}) {
   }
 
 
+
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
   if (!patient) return <p>No patient data found</p>;

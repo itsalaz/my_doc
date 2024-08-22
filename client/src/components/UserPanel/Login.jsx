@@ -1,7 +1,8 @@
+
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-function Login({ setCurrentUser}) {
+function Login({ setCurrentUser }) {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -55,7 +56,7 @@ function Login({ setCurrentUser}) {
       />
       
       <Link to='/signup'>
-        <button type="button" className="signup-button">Signup</button>
+        <button type="signupbtn">Signup</button>
       </Link>
     </form>
   );
