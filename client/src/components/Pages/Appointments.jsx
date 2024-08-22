@@ -5,6 +5,7 @@ import 'react-calendar/dist/Calendar.css';
 function Appointments() {
   const [appointments, setAppointments] = useState([]);
   const [date, setDate] = useState(new Date());
+  const [selectedAppointments, setSelectedAppointments] = useState([]);
 
   useEffect(() => {
     fetch('/api/appointments')
@@ -13,45 +14,42 @@ function Appointments() {
       .catch((error) => console.error('Error fetching appointments', error));
   }, []);
 
-  const renderContent = (date) => {
+  const handleDateChange = (newDate) => {
+    setDate(newDate);
     const dayAppointments = appointments.filter((appointment) => {
-      const appointmentDate = new Date(appointment.datetime).toDateString();
-      const calendarDate = date.toDateString();
-      console.log("Appointment Date:", appointmentDate); // Debugging line
-      console.log("Calendar Date:", calendarDate);       // Debugging line
-      return appointmentDate === calendarDate;
+      return new Date(appointment.datetime).toDateString() === newDate.toDateString();
     });
-
-    if (dayAppointments.length > 0) {
-      return (
-        <div className="appointment-details">
-          <span className="dot"></span>
-          <div className="appointment-info">
-            {dayAppointments.map((appointment) => (
-              <div key={appointment.id}>
-                <span>{appointment.patient?.name}</span> {/* Ensure patient name is available */}
-                <span>{new Date(appointment.datetime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      );
-    }
-    return null;
+    setSelectedAppointments(dayAppointments);
   };
 
   return (
     <div className="appointments-container">
       <Calendar
         value={date}
-        onChange={setDate}
+        onChange={handleDateChange}
         tileContent={({ date, view }) =>
-          view === 'month' && renderContent(date)
+          view === 'month' && appointments.some(appointment =>
+            new Date(appointment.datetime).toDateString() === date.toDateString()
+          ) ? <span className='dot'></span> : null
         }
       />
+
+      <div className="appointment-list">
+        {selectedAppointments.length > 0 ? (
+          selectedAppointments.map((appointment) => (
+            <div key={appointment.id} className="appointment-item">
+              <span>{appointment.patient?.name}</span> - 
+              <span>{new Date(appointment.datetime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+            </div>
+          ))
+        ) : (
+          <p>No appointments for this date.</p>
+        )}
+      </div>
     </div>
   );
 }
 
 export default Appointments;
+
 
