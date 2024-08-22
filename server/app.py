@@ -169,13 +169,12 @@ def get_patients():
     return patient_dicts, 200
 
 
-
 @app.post('/api/patients')
 def create_patient():
     data = request.get_json()
+    print(f"Request data: {data}")  
     
     try:
-      
         dob = datetime.strptime(data.get('dob'), '%Y-%m-%d').date() if data.get('dob') else None
         
         new_patient = Patient(
@@ -190,7 +189,6 @@ def create_patient():
         db.session.add(new_patient)
         db.session.commit()
 
-      
         patient_dict = {
             'id': new_patient.id,
             'name': new_patient.name,
@@ -204,7 +202,10 @@ def create_patient():
         return jsonify(patient_dict), 201
 
     except Exception as e:
+        print(f"Error creating patient: {str(e)}")
         return jsonify({'error': str(e)}), 400
+
+
     
 @app.get('/api/patients/<int:id>')
 def get_patient(id):
