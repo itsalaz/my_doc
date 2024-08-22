@@ -89,9 +89,9 @@ class Patient(db.Model, SerializerMixin):
   serialize_rules = ('appointments.patient', 'doctor_notes.patients',)
 
 
-  # # @validates('year_joined')
-  # # def validate_year_joined(self, key, value):
-  # #   current_year = datetime.now().year
+  # @validates('year_joined')
+  # def validate_year_joined(self, key, value):
+  #   current_year = datetime.now().year
 
 
   #   if not type(value) == int:
@@ -118,6 +118,7 @@ class Patient(db.Model, SerializerMixin):
   #   elif not value.isdigit():
   #     raise ValueError('Phone number must be an integer')
     
+  #   return value
   #   return value
   
 

@@ -155,6 +155,16 @@ h1 {
   color: #333;
   line-height: 1.5; 
 }
+
+.dot {
+  display: block;
+  height: 8px;
+  width: 8px;
+  background-color: #FF0000;
+  border-radius: 50%;
+  margin: 0 auto;
+  margin-top: 2px;
+}
 .signup-button {
   background-color: #1E90FF; 
   color: white; 
@@ -197,7 +207,7 @@ p {
   margin-bottom: 15px;       
 }
 
-button {
+.loginbtn {
   background-color: #1E90FF; 
   color: white;             
   border: none;           
