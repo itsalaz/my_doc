@@ -62,7 +62,7 @@ function Signup({ setCurrentUser }) {
       
       <p>Already have an account?</p>
       <Link to='/login'>
-        <button type="button">Login</button>
+        <button className='loginbtn'  type="button">Login</button>
       </Link>
     </form>
   );
