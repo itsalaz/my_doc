@@ -1,8 +1,8 @@
-"""hi
+"""initialize
 
-Revision ID: f6fe163a8609
+Revision ID: aad1f098f01f
 Revises: 
-Create Date: 2024-08-20 12:58:37.470909
+Create Date: 2024-08-21 14:40:40.021190
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'f6fe163a8609'
+revision = 'aad1f098f01f'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -21,6 +21,17 @@ def upgrade():
     op.create_table('chart_table',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('info', sa.String(), nullable=True),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('patients_table',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('name', sa.String(), nullable=False),
+    sa.Column('dob', sa.Date(), nullable=False),
+    sa.Column('ssn', sa.Integer(), nullable=False),
+    sa.Column('email', sa.String(), nullable=False),
+    sa.Column('address', sa.String(), nullable=False),
+    sa.Column('phone_number', sa.String(), nullable=False),
+    sa.Column('year_joined', sa.Integer(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('users_table',
@@ -36,19 +47,6 @@ def upgrade():
     sa.Column('specialty', sa.String(), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['users_table.id'], name=op.f('fk_doctors_table_user_id_users_table')),
-    sa.PrimaryKeyConstraint('id')
-    )
-    op.create_table('patients_table',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('name', sa.String(), nullable=False),
-    sa.Column('dob', sa.Date(), nullable=False),
-    sa.Column('ssn', sa.Integer(), nullable=False),
-    sa.Column('email', sa.String(), nullable=False),
-    sa.Column('address', sa.String(), nullable=False),
-    sa.Column('phone_number', sa.String(), nullable=False),
-    sa.Column('year_joined', sa.Integer(), nullable=True),
-    sa.Column('chart_id', sa.String(), nullable=False),
-    sa.ForeignKeyConstraint(['chart_id'], ['chart_table.id'], name=op.f('fk_patients_table_chart_id_chart_table')),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('appointments_table',
@@ -83,8 +81,8 @@ def downgrade():
     op.drop_table('doctor_note_patient')
     op.drop_table('doctors_notes')
     op.drop_table('appointments_table')
-    op.drop_table('patients_table')
     op.drop_table('doctors_table')
     op.drop_table('users_table')
+    op.drop_table('patients_table')
     op.drop_table('chart_table')
     # ### end Alembic commands ###

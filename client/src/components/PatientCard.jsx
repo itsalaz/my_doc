@@ -2,7 +2,9 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 
-    function PatientCard({patient}) {
+    function PatientCard({patient, handleDelete}) {
+      
+      
       return(
           <tr>
             <td>
@@ -13,6 +15,9 @@ import { Link } from 'react-router-dom'
             </td>
             <td>
             <Link to={`/patients/${patient.id}`}>{patient.phone_number}</Link>
+            </td>
+            <td>
+            <button onClick={handleDelete}>x</button>
             </td>
           </tr>
       )

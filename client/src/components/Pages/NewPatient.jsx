@@ -5,14 +5,8 @@ function NewPatient() {
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState([]);
 
-  const [name, setName] = useState('');
-  const [dob, setDob] = useState('');
-  const [ssn, setSsn] = useState('');
-  const [email, setEmail] = useState('');
-  const [address, setAddress] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-
   const navigate = useNavigate();
+
 
   function handleSubmit(e) {
     e.preventDefault();

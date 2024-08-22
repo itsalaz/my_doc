@@ -201,12 +201,33 @@ body {
   background: rgba(44, 44, 46, 0.2);
   font-family: 'Inter', sans-serif;
   height: 100svh;
+
 }
 
 li {
   list-style: none;
 }
 
+
+
+.navbar {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center; 
+  padding: 1rem;
+}
+
+
+.navbar a,
+.navbar button {
+  text-decoration: none;
+  color: #007bff;
+  font-weight: bold;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
 
 
 header {
@@ -220,10 +241,6 @@ header {
 
 /* Patient List */
 
-.new-patient-button {
-  align-items: center;
-  padding: 20px;
-}
 
 .patient-container {
   width: 100%;
@@ -286,26 +303,3 @@ button:hover {
   background-color: #0056b3; 
 }
 
-
-
-
-
-
-.navbar {
-  display: flex;
-  justify-content: space-between; 
-  align-items: center; 
-  padding: 1rem;
-}
-
-
-.navbar a,
-.navbar button {
-  text-decoration: none;
-  color: #007bff;
-  font-weight: bold;
-  background: none;
-  border: none;
-  cursor: pointer;
-  transition: color 0.3s ease;
-}

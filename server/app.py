@@ -41,16 +41,7 @@ def logout():
     session.pop('user_id')
     return {}, 204
 
-# @app.post('/api/doctor_notes')
-# def create_note():
-#     try:
-#         data = request.json
-#         new_note = DoctorNote(**data)
-#         new_note.user_id = session['user_id']
-#         db.session.add(new_note)
-#         db.session.commit()
-#     except Exception as e:
-#         return {'error': str(e)}, 406
+
 @app.get('/api/appointments')
 def get_appointments():
     apt_list = Appointment.query.all()

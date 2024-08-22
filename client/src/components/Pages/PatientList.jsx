@@ -25,6 +25,10 @@ function PatientList({ search }) {
     patient.name.toLowerCase().includes(search.toLowerCase())
   )
 
+  const handleDelete = (id) => {
+    let newList = patients.filter((patient) => patient.id != id)
+    setPatients(newList)
+  }
 
   return (
     <main className="patient-container">
@@ -40,7 +44,7 @@ function PatientList({ search }) {
           </thead>
           <tbody>
             {filteredPatients.map((patient) => (
-              <PatientCard key={patient.id} patient={patient}/>
+              <PatientCard key={patient.id} patient={patient} handleDelete={() => handleDelete(patient.id)}/>
             ))}
           </tbody>
         </table>

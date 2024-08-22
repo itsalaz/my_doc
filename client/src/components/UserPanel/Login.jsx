@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-function Login({ setCurrentUser }) {
+function Login({ setCurrentUser}) {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
