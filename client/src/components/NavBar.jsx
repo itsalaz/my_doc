@@ -14,7 +14,7 @@ function NavBar({ currentUser, handleLogout }) {
           <NavLink to="/appointments">Appointments</NavLink>
         </>
       ) : (
-        <div class="parent-container">
+        <div className="parent-container">
           <h3 className='title'>Doctafile</h3>
         </div>
          

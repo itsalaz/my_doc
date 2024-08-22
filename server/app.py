@@ -41,16 +41,7 @@ def logout():
     session.pop('user_id')
     return {}, 204
 
-# @app.post('/api/doctor_notes')
-# def create_note():
-#     try:
-#         data = request.json
-#         new_note = DoctorNote(**data)
-#         new_note.user_id = session['user_id']
-#         db.session.add(new_note)
-#         db.session.commit()
-#     except Exception as e:
-#         return {'error': str(e)}, 406
+
 @app.get('/api/appointments')
 def get_appointments():
     apt_list = Appointment.query.all()
@@ -72,9 +63,58 @@ def get_patient(id):
       return found_patient.to_dict(), 200
 
     else:
-    # 3a. Return an erroe message with the 404 status code
         return {"error": "Not found"}, 404
+
+@app.post('/api/patients')
+def post_patient():
+    data = request.json
+
+    try:
+        new_patient = Patient(
+            name=data['name'],
+            dob=data['dob'],
+            ssn=data['ssn'],
+            email=data['email'],
+            phone_number=data['phone_number'],
+            # chart_id=data.get('chart_id')
+        )
+        db.session.add(new_patient)
+        db.session.commit()
+
+        return new_patient.to_dict(), 201
+    except Exception as e:
+        return jsonify({'error': str(e)}), 422
     
+@app.patch('/api/patients/<int:id>')
+def patch_patient_by_id(id):
+    found_patient = Patient.query.where(Patient.id == id).first()
+
+
+    if found_patient:
+        data = request.json
+        try:
+            for key in data:
+                setattr(found_patient, key, data['key'])
+            db.session.add(found_patient)
+            db.session.commit()
+            return found_patient.to_dict(), 200
+        except:
+            return {'error': 'Invalid data'}, 400
+    else:
+        return {'error': 'Not found'}, 404
+    
+@app.delete('/api/patient/<int:id>')
+def delete_patient_by_id(id):
+
+    found_patient = Patient.query.where(Patient.id == id).first()
+
+    if found_patient:
+        db.session.delete(found_patient)
+        db.session.commit()
+        return {}, 204
+    else:
+        return {'error': 'Not found'}, 404
+
 @app.get('/api/appointments')
 def get_appointment():
     appointments = Appointment.query.all()

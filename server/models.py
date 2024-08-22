@@ -52,7 +52,6 @@ class Doctor(db.Model, SerializerMixin):
   serialize_rules = ('-appointments.doctor', '-notes.doctor',)
 
 
-
 class Appointment(db.Model, SerializerMixin):
   __tablename__ = 'appointments_table'
   
@@ -81,7 +80,7 @@ class Patient(db.Model, SerializerMixin):
   address = db.Column(db.String, nullable=False)
   phone_number = db.Column(db.String, nullable=False)
   year_joined= db.Column(db.Integer)
-  chart_id = db.Column(db.String, db.ForeignKey('chart_table.id'), nullable=False)
+  # chart_id = db.Column(db.String, db.ForeignKey('chart_table.id'), nullable=False)
 
   appointments = db.relationship('Appointment', back_populates='patient')
   doctor_notes = db.relationship('DoctorNote', secondary='doctor_note_patient', back_populates='patients')

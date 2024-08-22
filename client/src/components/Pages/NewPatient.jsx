@@ -1,119 +1,123 @@
-import React, { useState, useEffect } from 'react'
-// import { useHistory } from 'react-router'
-import Header from '../Header'
-// import { FormField, Input, Label } from '../Styles'
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function NewPatient() {
-  const [isLoading, setIsLoading] = useState(false)
-  const [errors, setErrors ] = useState([])
-  // const history = useHistory()
+  const [isLoading, setIsLoading] = useState(false);
+  const [errors, setErrors] = useState([]);
 
-
-  const [name, setName] = useState('')
-  const [dob, setDob] = useState('')
-  const [ssn, setSsn] = useState('')
-  const [email, setEmail] = useState('')
-  const [address, setAddress] = useState('')
-  const [phoneNumber, setPhoneNumber] = useState('')
+  const navigate = useNavigate();
 
 
   function handleSubmit(e) {
-    e.preventDefault()
-    setIsLoading(true)
+    e.preventDefault();
+    setIsLoading(true);
     fetch('/api/patients', {
-      method:'POST',
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body:JSON.stringify ({
+      body: JSON.stringify({
         name,
-        dob, 
-        ssn, 
+        dob,
+        ssn,
         email,
         address,
-        phone_number,
+        phone_number: phoneNumber,
       }),
-    }).then((res) => {
-      setIsLoading(false)
-      if(res.ok) {
-        history.push('/api/patients')
-      } else {
-        res.json().then((err) => setErrors(err.errors))
-      }
     })
+      .then((res) => {
+        setIsLoading(false);
+        if (res.ok) {
+          return res.json();
+        } else {
+          return res.json().then((err) => {
+            setErrors(err.errors);
+            throw new Error('Failed to add patient');
+          });
+        }
+      })
+      .then((newPatient) => {
+        // Navigate to the patients page with the new patient data
+        navigate('/patients', { state: { newPatient } });
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        setErrors(['Something went wrong! Please try again.']);
+      });
   }
+
+  
 
 
   return (
     <div>
-      <Header/>
       <div className='create-patient-wrapper'>
       <h1>Create Patient</h1>
+      {errors.length > 0 && (
+      <div className='error-messages'>
+        {errors.map((error, index) => (
+          <p key={index}>{error}</p>
+        ))}
+      </div>
+      )}
       <form onSubmit={handleSubmit}>
-        <FormField>
-          <Label htmlFor='name'>Name</Label>
-          <Input
+        <div className='new-form-group'>
+          <label htmlFor='name'>Name:</label>
+          <input
             type='text'
             id='name'
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
-        </FormField>
-        <FormField>
-          <Label htmlFor='dob'>Date of Birth</Label>
-          <Input
+          </div>
+          <div className='new-form-group'>
+          <label htmlFor='dob'>Date of Birth</label>
+          <input
           type='text'
           id='dob'
           value={dob}
           onChange={(e) => setDob(e.target.value)}
           />
-        </FormField>
-        <FormField>
-          <Label htmlFor='ssn'>Social Security Number</Label>
-          <Input
+          </div>
+          <div className='new-form-group'>
+          <label htmlFor='ssn'>SSN:</label>
+          <input
             type='text'
             id='ssn'
             value={ssn}
             onChange={(e) => setSsn(e.target.value)}
             />
-        </FormField>
-        <FormField>
-          <Label htmlFor='email'>Email</Label>
-          <Input
+          </div>
+          <div className='new-form-group'>
+          <label htmlFor='ssn'>Email:</label>
+          <input
             type='text'
             id='email'
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             />
-        </FormField>
-        <FormField>
-          <Label htmlFor='address'>Address</Label>
-          <Input
+          </div>
+          <div className='new-form-group'>
+          <label htmlFor='address'>Address:</label>
+          <input
             type='text'
             id='address'
             value={address}
             onChange={(e) => setAddress(e.target.value)}
             />
-        </FormField>
-        <FormField>
-          <Label htmlFor='phone-number'>Phone Number</Label>
-          <Input
+            </div>
+          <div className='new-form-group'>
+          <label htmlFor='phone-number'>Phone Number:</label>
+          <input
             type='text'
             id='phone-number'
             value={phoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
             />
-        </FormField>
-        <FormField>
-            <Button color="primary" type="submit">
-              {isLoading ? "Loading..." : "Submit Recipe"}
-            </Button>
-        </FormField>
-        <FormField>
-            {errors.map((err) => (
-              <Error key={err}>{err}</Error>
-            ))}
-          </FormField>
+          </div>
+          <button color="primary" type="submit">
+          {isLoading ? "Adding..." : "Add Patient"}
+          </button>
       </form>
       </div>
     </div>

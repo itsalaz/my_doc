@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useSyncExternalStore } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import Appointments from './Pages/Appointments';
 import PatientInfo from './Pages/PatientInfo';
@@ -13,7 +13,16 @@ import UserDetails from './UserPanel/UserDetails';
 function App() {
   const [search, setSearch] = useState('');
   const [currentUser, setCurrentUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [patients, setPatients] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [form, setForm] = useState ({
+    name: '', 
+    dob: '',
+    ssn: '',
+    email: '',
+    address: '',
+    phone_number:'',
+  })
 
   useEffect(() => {
     fetch('/api/check_session')
@@ -33,6 +42,16 @@ function App() {
       });
   }, []);
 
+  useEffect(() => {
+    fetch('/api/patients')
+    .then(res => {
+      res.json()
+    })
+    .then(data => setPatients(data))
+    .catch(error => console.error('Error fetching patients', error))
+  }, [])
+
+  
   function handleLogout() {
     fetch('/api/logout', { method: 'DELETE' })
       .then(res => {
@@ -44,6 +63,8 @@ function App() {
       })
       .catch(error => console.error('Error logging out:', error));
   }
+
+
 
   if (loading) {
     return <h1>Loading...</h1>;
