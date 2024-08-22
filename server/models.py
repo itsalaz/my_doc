@@ -78,9 +78,8 @@ class Patient(db.Model, SerializerMixin):
   ssn = db.Column(db.Integer, nullable=False)
   email = db.Column(db.String, nullable=False)
   address = db.Column(db.String, nullable=False)
-  phone_number = db.Column(db.String, nullable=False)
-  year_joined= db.Column(db.Integer)
-  # chart_id = db.Column(db.String, db.ForeignKey('chart_table.id'), nullable=False)
+ 
+  
 
   appointments = db.relationship('Appointment', back_populates='patient')
   doctor_notes = db.relationship('DoctorNote', secondary='doctor_note_patient', back_populates='patients')
@@ -140,10 +139,5 @@ class DoctorNote(db.Model, SerializerMixin):
 # not every user can access and post doctor notes, only doctor-users can do so 
   patients = db.relationship('Patient', secondary='doctor_note_patient', back_populates='doctor_notes')
 
-class Chart(db.Model, SerializerMixin):
-  __tablename__ = 'chart_table'
-
-  id = db.Column(db.Integer, primary_key=True)
-  info = db.Column(db.String)
 
 

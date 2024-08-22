@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
+import NewApt from './NewApt';
 
 function Appointments() {
   const [appointments, setAppointments] = useState([]);
@@ -21,6 +22,10 @@ function Appointments() {
     });
     setSelectedAppointments(dayAppointments);
   };
+
+  function handleAddAppointment(newAppointment) {
+    setAppointments([...appointments, newAppointment]);
+  }
 
   return (
     <div className="appointments-container">
@@ -46,6 +51,7 @@ function Appointments() {
           <p>No appointments for this date.</p>
         )}
       </div>
+      <NewApt onAddAppointment={handleAddAppointment} />
     </div>
   );
 }
