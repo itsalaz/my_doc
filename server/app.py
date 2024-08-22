@@ -175,7 +175,7 @@ def create_patient():
     data = request.get_json()
     
     try:
-        # Convert the date string to a datetime.date object if necessary
+      
         dob = datetime.strptime(data.get('dob'), '%Y-%m-%d').date() if data.get('dob') else None
         
         new_patient = Patient(
@@ -190,7 +190,7 @@ def create_patient():
         db.session.add(new_patient)
         db.session.commit()
 
-        # Manually construct the response dictionary to exclude fields
+      
         patient_dict = {
             'id': new_patient.id,
             'name': new_patient.name,
@@ -233,6 +233,7 @@ def patch_patient_by_id(id):
             return {'error': 'Invalid data'}, 400
     else:
         return {'error': 'Not found'}, 404
+    
     
 @app.delete('/api/patient/<int:id>')
 def delete_patient_by_id(id):
