@@ -1,7 +1,6 @@
 from flask import Flask, request, session, jsonify
-from werkzeug.security import generate_password_hash
-from models import User, Patient, Doctor, Appointment
-from config import app, db, bcrypt 
+from models import User, Patient, Appointment
+from config import app, db
 
 @app.post('/api/users')
 def create_user():
@@ -21,20 +20,22 @@ def check_session():
     user_id = session.get('user_id')
 
     if user_id:
-        user = User.query.where(User.id == user_id).first()
+        user = User.query.filter(User.id == user_id).first()
         return user.to_dict(), 200
     else:
-        return {}, 204
+        return {'error': 'No Active Session'}, 200
 
 @app.post('/api/login')
 def login():
     data = request.json 
-    user = User.query.where(User.username == data['username']).first()
+    user = User.query.filter(User.username == data['username']).first()
     if user and user.authenticate(data['password']):
         session['user_id'] = user.id 
         return user.to_dict(), 201
     else:
         return { 'error': 'Invalid username or password' }, 401
+
+
 
 @app.delete('/api/logout')
 def logout():
@@ -58,7 +59,7 @@ def get_patients():
 
 @app.get('/api/patients/<int:id>')
 def get_patient(id):
-    found_patient = Patient.query.where(Patient.id == id).first()
+    found_patient = Patient.query.filter(Patient.id == id).first()
     if found_patient:
       return found_patient.to_dict(), 200
 
@@ -85,28 +86,49 @@ def post_patient():
     except Exception as e:
         return jsonify({'error': str(e)}), 422
     
+# @app.patch('/api/patients/<int:id>')
+# def patch_patient_by_id(id):
+#     found_patient = Patient.query.filter(Patient.id == id).first()
+
+
+#     if found_patient:
+#         data = request.json
+#         try:
+#             for key in data:
+#                 setattr(found_patient, key, data['key'])
+#             db.session.add(found_patient)
+#             db.session.commit()
+#             return found_patient.to_dict(), 200
+#         except Exception as e:
+#             return {'error': 'Invalid data'}, 400
+#     else:
+#         return {'error': 'Not found'}, 404
+
 @app.patch('/api/patients/<int:id>')
 def patch_patient_by_id(id):
-    found_patient = Patient.query.where(Patient.id == id).first()
+    patient = Patient.query.get(id)
+    if not patient:
+        return {'error': 'Patient not found'}, 404
 
-
-    if found_patient:
+    try:
         data = request.json
-        try:
-            for key in data:
-                setattr(found_patient, key, data['key'])
-            db.session.add(found_patient)
-            db.session.commit()
-            return found_patient.to_dict(), 200
-        except:
-            return {'error': 'Invalid data'}, 400
-    else:
-        return {'error': 'Not found'}, 404
+        print("Incoming data", data)
+
+        for key, value in data.items():
+            if hasattr(patient, key):
+                setattr(patient, key, value)
+        db.session.commit()
+        return patient.to_dict(), 200
+    except Exception as e:
+        print("Error:", str(e))
+        return {'error': f'Failed to update patient: {str(e)}'}, 400
+
+
     
 @app.delete('/api/patient/<int:id>')
 def delete_patient_by_id(id):
 
-    found_patient = Patient.query.where(Patient.id == id).first()
+    found_patient = Patient.query.filter(Patient.id == id).first()
 
     if found_patient:
         db.session.delete(found_patient)

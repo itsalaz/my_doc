@@ -9,6 +9,9 @@ import Login from './UserPanel/Login';
 import Signup from './UserPanel/Signup';
 import NavBar from './NavBar';
 import UserDetails from './UserPanel/UserDetails';
+// import { saveCartToLocalStorage, loadCartFromLocalStorage } from "./utility"
+
+
 
 function App() {
   const [search, setSearch] = useState('');
@@ -45,6 +48,7 @@ function App() {
   useEffect(() => {
     fetch('/api/patients')
     .then(res => {
+      console.log('response status:', res.status)
       res.json()
     })
     .then(data => setPatients(data))

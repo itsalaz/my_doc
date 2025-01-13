@@ -1,6 +1,7 @@
 from sqlalchemy.orm import validates 
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.associationproxy import association_proxy
+from werkzeug.security import generate_password_hash
 from config import db, bcrypt 
 from datetime import datetime
 from sqlalchemy import Column, Integer, Date, String
@@ -26,7 +27,7 @@ class User(db.Model, SerializerMixin):
 
   @property
   def password(self): 
-      raise Exception("Safety First")
+      raise Exception("In")
     
   @password.setter
   def password(self, value): 

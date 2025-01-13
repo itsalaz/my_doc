@@ -1,7 +1,7 @@
-
-
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import UserDetails from './UserPanel/UserDetails'
+
 
 function NavBar({ currentUser, handleLogout }) {
   return (

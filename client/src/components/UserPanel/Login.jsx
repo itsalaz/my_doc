@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 function Login({ setCurrentUser}) {
 
   const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState(''); 
   const navigate = useNavigate();
 
   function handleSubmit(e) {

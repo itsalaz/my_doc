@@ -7,9 +7,15 @@ function PatientInfo({loading, setLoading}) {
   const { id } = useParams();
   const [patient, setPatient] = useState(null);
   const [error, setError] = useState(null);
-
   const [isEditable, setIsEditable] = useState(false)
-  const [inputValues, setInputValues] = useState ({})
+  const [inputValues, setInputValues] = useState ({
+    name: '', 
+    dob: '',
+    ssn: '',
+    email: '',
+    address: '',
+    phone_number:'',
+  })
 
   useEffect(() => {
     fetch(`/api/patients/${id}`)
@@ -23,13 +29,12 @@ function PatientInfo({loading, setLoading}) {
       .then(data => {
         setPatient(data);
         setInputValues(data)
-        // setLoading(false);
       })
       .catch(error => {
         setError(error.message);
         // setLoading(false);
       });
-  }, [id, setInputValues]);
+  }, [id]);
 
 
   const handleInputChange = (key, value) => {
@@ -39,8 +44,36 @@ function PatientInfo({loading, setLoading}) {
     }))
   }
 
+
+  const handleSave = () => {
+    fetch(`/api/patients/${id}`, {
+      method: 'PATCH', 
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(inputValues),
+    })
+    .then(res => {
+      if(res.ok) {
+        return res.json();
+      }
+      throw new Error('Failed to update patient data');
+    })
+    .then(updatedPatient => {
+      setPatient(updatedPatient)
+      setIsEditable(false)
+    })
+    .catch(error => {
+      setError(error.message)
+    })
+  }
+
   const toggleEditMode = () => {
-    setIsEditable(!isEditable)
+    if (isEditable) {
+      handleSave()
+    } else {
+      setIsEditable(true)
+    }
   }
 
 
@@ -51,7 +84,7 @@ function PatientInfo({loading, setLoading}) {
 
   return (
     <div className='patient-info-container'>
-      <thead></thead>
+      <table>
       <h1>
       { isEditable ? (
               <input 
@@ -64,7 +97,6 @@ function PatientInfo({loading, setLoading}) {
               patient.name
             )}
       </h1>
-      <table>
         <tbody>
           <tr>
             <th>Name</th>
@@ -73,7 +105,7 @@ function PatientInfo({loading, setLoading}) {
               <input 
               name='name'
               type='text'
-              value={inputValues.name}
+              value={inputValues.name || ''}
               onChange={(e) => handleInputChange('name', e.target.value)}
               />
             ) : (
@@ -88,7 +120,7 @@ function PatientInfo({loading, setLoading}) {
               <input 
               name='name'
               type='text'
-              value={inputValues.dob}
+              value={inputValues.dob || ''}
               onChange={(e) => handleInputChange('dob', e.target.value)}
               />
             ) : (
@@ -103,7 +135,7 @@ function PatientInfo({loading, setLoading}) {
               <input 
               name='name'
               type='text'
-              value={inputValues.address}
+              value={inputValues.address || ''}
               onChange={(e) => handleInputChange('address', e.target.value)}
               />
             ) : (
@@ -118,7 +150,7 @@ function PatientInfo({loading, setLoading}) {
               <input 
               name='name'
               type='text'
-              value={inputValues.ssn}
+              value={inputValues.ssn || ''}
               onChange={(e) => handleInputChange('ssn', e.target.value)}
               />
             ) : (
@@ -133,7 +165,7 @@ function PatientInfo({loading, setLoading}) {
               <input 
               name='name'
               type='text'
-              value={inputValues.phone_number}
+              value={inputValues.phone_number || ''}
               onChange={(e) => handleInputChange('phone_number', e.target.value)}
               />
             ) : (
