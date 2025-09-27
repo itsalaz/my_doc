@@ -76,10 +76,10 @@ class Patient(db.Model, SerializerMixin):
   id = db.Column(db.Integer, primary_key=True)
   name = db.Column(db.String, nullable=False)
   dob = db.Column(db.Date, nullable=False)
-  ssn = db.Column(db.Integer, nullable=False)
   email = db.Column(db.String, nullable=False)
   address = db.Column(db.String, nullable=False)
   phone_number = db.Column(db.String, nullable=True)
+  year_joined = db.Column(db.Integer, nullable=False)
  
   appointments = db.relationship('Appointment', back_populates='patient')
   doctor_notes = db.relationship('DoctorNote', secondary='doctor_note_patient', back_populates='patients')
@@ -94,7 +94,7 @@ class Patient(db.Model, SerializerMixin):
     if not type(value) == int:
       raise ValueError('year joined must be between an integer')
     
-    if value not in range(2023, current_year):
+    if value not in range(2023, current_year + 1):
       raise ValueError(f'year joined must be between 2023 and {current_year}')
     
     return value
@@ -110,6 +110,8 @@ class Patient(db.Model, SerializerMixin):
  
   @validates('phone_number')
   def validate_phone_number(self, key, value):
+    
+    digits = ''.join(filter(str.isdigit, value))
     if len(value) > 10:
       raise ValueError('Not a valid phone number')
     elif not value.isdigit():

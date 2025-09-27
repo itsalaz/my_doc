@@ -5,7 +5,6 @@ function NewPatient({ handleAddPatient}) {
   const [form, setForm] = useState({
     name: '',
     dob: '',
-    ssn: '',
     email: '',
     address: '',
     phone_number: '',

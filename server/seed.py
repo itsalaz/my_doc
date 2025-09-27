@@ -1,15 +1,18 @@
 #!/usr/bin/env python3
 
 from config import app, db
-from models import Doctor, Patient, Appointment, Chart, DoctorNote, User 
+from models import Doctor, Patient, Appointment, DoctorNote, User 
 from random import randint, choice as rc
 from faker import Faker
 from app import app
 from models import db
 from datetime import datetime
+from random import randint 
 
 
 fake = Faker()
+
+current_year = datetime.now().year
 
 def seed_database():
     with app.app_context():
@@ -41,18 +44,18 @@ def seed_database():
 
 
 
-        patients = [Patient(
-            name=fake.name(), 
-            dob=fake.date_of_birth(minimum_age=0, maximum_age=100),  # Full date of birth
-            ssn=fake.random_int(min=100000000, max=999999999),
-            email=fake.email(),
-            address=fake.address(),
-            phone_number=fake.phone_number(),
-            year_joined=randint(1900, datetime.now().year),  # Ensure year is an integer and within a valid range
-        ) for _ in range(5)]
-        db.session.bulk_save_objects(patients)
-
-       
+        patients = [
+            Patient(
+                name=fake.name(),
+                dob=fake.date_of_birth(minimum_age=0, maximum_age=100),
+                ssn=fake.random_int(min=100000000, max=999999999),
+                email=fake.email(),
+                address=fake.address(),
+                phone_number=''.join([str(randint(0, 9)) for _ in range(10)]),  # 10-digit phone
+                year_joined=randint(2023, current_year),  # Must match your validator
+            )
+            for _ in range(5)
+    ]
 
 
         appointments = [Appointment(
